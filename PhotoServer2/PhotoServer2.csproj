@@ -226,7 +226,6 @@
     <Compile Include="App_Architecture\Services\Core\WindsorFilterProvider.cs" />
     <Compile Include="App_Architecture\Services\Core\WindsorHttpControllerActivator.cs" />
     <Compile Include="App_Architecture\Services\Data\HighwayDataContext.cs" />
-    <Compile Include="App_Architecture\Services\Data\HighwayMappingConfiguration.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -248,6 +247,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PhotoController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\ExampleEntity.cs" />
@@ -258,6 +258,7 @@
     </Compile>
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\PhotoDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
@@ -321,6 +322,16 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\PhotoServer.DataAccessLayer\PhotoServer.DataAccessLayer.csproj">
+      <Project>{3ce4f023-bc86-43a3-9442-cd664463a16d}</Project>
+      <Name>PhotoServer.DataAccessLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\RacePhotosData\PhotoServer.Domain\PhotoServer.Domain.csproj">
+      <Project>{f8be44f9-5540-4d9d-84f8-a2614cd30987}</Project>
+      <Name>PhotoServer.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
