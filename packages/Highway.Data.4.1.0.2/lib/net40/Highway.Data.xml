@@ -1,0 +1,687 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Highway.Data</name>
+    </assembly>
+    <members>
+        <member name="T:Highway.Data.IDataContext">
+            <summary>
+            The standard interface used to interact with an ORM specific implementation
+            </summary>
+        </member>
+        <member name="M:Highway.Data.IDataContext.AsQueryable``1">
+            <summary>
+            This gives a mockable wrapper around normal Set method that allows for testablity
+            </summary>
+            <typeparam name="T">The Entity being queried</typeparam>
+            <returns><see cref="T:System.Linq.IQueryable`1"/></returns>
+        </member>
+        <member name="M:Highway.Data.IDataContext.Add``1(``0)">
+            <summary>
+            Adds the provided instance of <typeparamref name="T"/> to the data context
+            </summary>
+            <typeparam name="T">The Entity Type being added</typeparam>
+            <param name="item">The <typeparamref name="T"/> you want to add</param>
+            <returns>The <typeparamref name="T"/> you added</returns>
+        </member>
+        <member name="M:Highway.Data.IDataContext.Remove``1(``0)">
+            <summary>
+            Removes the provided instance of <typeparamref name="T"/> from the data context
+            </summary>
+            <typeparam name="T">The Entity Type being removed</typeparam>
+            <param name="item">The <typeparamref name="T"/> you want to remove</param>
+            <returns>The <typeparamref name="T"/> you removed</returns>
+        </member>
+        <member name="M:Highway.Data.IDataContext.Update``1(``0)">
+            <summary>
+            Updates the provided instance of <typeparamref name="T"/> in the data context
+            </summary>
+            <typeparam name="T">The Entity Type being updated</typeparam>
+            <param name="item">The <typeparamref name="T"/> you want to update</param>
+            <returns>The <typeparamref name="T"/> you updated</returns>
+        </member>
+        <member name="M:Highway.Data.IDataContext.Reload``1(``0)">
+            <summary>
+            Reloads the provided instance of <typeparamref name="T"/> from the database
+            </summary>
+            <typeparam name="T">The Entity Type being reloaded</typeparam>
+            <param name="item">The <typeparamref name="T"/> you want to reload</param>
+            <returns>The <typeparamref name="T"/> you reloaded</returns>
+        </member>
+        <member name="M:Highway.Data.IDataContext.Commit">
+            <summary>
+            Commits all currently tracked entity changes
+            </summary>
+            <returns>the number of rows affected</returns>
+        </member>
+        <member name="P:Highway.Data.IDataContext.EventManager">
+            <summary>
+            The reference to EventManager that allows for ordered event handling and registration
+            </summary>
+        </member>
+        <member name="T:Highway.Data.Filtering.CombinationCriteria">
+            <summary>
+            Base abstract class for combining criteria together
+            </summary>
+        </member>
+        <member name="T:Highway.Data.Filtering.Criteria">
+            <summary>
+            Base abstract Criteria
+            </summary>
+        </member>
+        <member name="T:Highway.Data.Filtering.FilterExtensions">
+            <summary>
+            Basic Extensions for building the Filtering API
+            </summary>
+        </member>
+        <member name="T:Highway.Data.Interceptors.Events.PostQueryEventArgs">
+            <summary>
+            The Event Arguments for a post query execution Interceptor to use
+            </summary>
+        </member>
+        <member name="T:Highway.Data.Interceptors.Events.PostSaveEventArgs">
+            <summary>
+            The Event Arguments for a Post-Save Interceptor to use
+            </summary>
+        </member>
+        <member name="T:Highway.Data.Interceptors.Events.PreQueryEventArgs">
+            <summary>
+            The Event Arguments for a Pre-Query execution Interceptor to use
+            </summary>
+        </member>
+        <member name="T:Highway.Data.Interceptors.Events.PreSaveEventArgs">
+            <summary>
+            The Event Arguments for a Pre-Save Interceptor to use
+            </summary>
+        </member>
+        <member name="T:Highway.Data.EventManagement.EventManager">
+            <summary>
+            The base implementation of the Event manager for registration of Interceptors, and execution of them in an ordered fashion
+            </summary>
+        </member>
+        <member name="T:Highway.Data.IEventManager">
+            <summary>
+            The interface used to interact with the Event manager implementation for registration of Interceptors
+            </summary>
+        </member>
+        <member name="M:Highway.Data.IEventManager.Register``1(Highway.Data.IInterceptor{``0})">
+            <summary>
+            Allows for the Registration of IInterceptor<typeparamref name="T"/> objects that will hook to events in priority order
+            </summary>
+            <param name="interceptor">The interceptor to be registered to an event</param>
+            <typeparam name="T">The Event Args that the interceptor accepts</typeparam>
+        </member>
+        <member name="P:Highway.Data.IEventManager.Context">
+            <summary>
+            A reference to context that allows for usaged and event wiring
+            </summary>
+        </member>
+        <member name="M:Highway.Data.EventManagement.EventManager.Register``1(Highway.Data.IInterceptor{``0})">
+            <summary>
+            Allows for the Registration of <see cref="T:Highway.Data.IInterceptor`1"/> objects that will hook to events in priority order
+            </summary>
+            <param name="interceptor">The interceptor to be registered to an event</param>
+            <typeparam name="T">The Event Args that the interceptor accepts</typeparam>
+        </member>
+        <member name="P:Highway.Data.EventManagement.EventManager.Context">
+            <summary>
+            A reference to context that allows for usaged and event wiring
+            </summary>
+        </member>
+        <member name="T:Highway.Data.Interceptors.InterceptorResult">
+            <summary>
+            Results from any interceptor operation that gives a flag to tell the event manager to proceed to the next priority in line or not.
+            </summary>
+        </member>
+        <member name="M:Highway.Data.Interceptors.InterceptorResult.Succeeded">
+            <summary>
+            Creates a successful result that continues execution
+            </summary>
+            <returns>An Interceptor Result</returns>
+        </member>
+        <member name="M:Highway.Data.Interceptors.InterceptorResult.Failed(System.String,System.Boolean)">
+            <summary>
+            Creates a failure result that gives the event manager a message to log, and specifies to proceed to the next priority in line or not. The Default is False
+            </summary>
+            <param name="message">Error message from the interceptor</param>
+            <param name="continueToExecute">Does execution of the interceptors continue ( Default is False )</param>
+            <returns>An Interceptor Result</returns>
+        </member>
+        <member name="P:Highway.Data.Interceptors.InterceptorResult.ContinueExecution">
+            <summary>
+            A boolean flag for the event manager to decide if it will continue to process or error
+            </summary>
+        </member>
+        <member name="P:Highway.Data.Interceptors.InterceptorResult.Message">
+            <summary>
+            Error message populated in the case of failure
+            </summary>
+        </member>
+        <member name="T:Highway.Data.ICommand">
+            <summary>
+            An Interface for Command Queries that return no value, or the return is ignored
+            </summary>
+        </member>
+        <member name="M:Highway.Data.ICommand.Execute(Highway.Data.IDataContext)">
+            <summary>
+            Executes the expression against the passed in context and ignores the returned value if any
+            </summary>
+            <param name="context">The data context that the command is executed against</param>
+        </member>
+        <member name="T:Highway.Data.IInterceptor`1">
+            <summary>
+            The standard interface for intercept
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Highway.Data.IInterceptor`1.Execute(Highway.Data.IDataContext,`0)">
+            <summary>
+            Executes the interceptor handle an event based on the event arguments
+            </summary>
+            <param name="context">The data context that raised the event</param>
+            <param name="eventArgs">The event arguments that were passed from the context</param>
+            <returns>An Interceptor Result</returns>
+        </member>
+        <member name="P:Highway.Data.IInterceptor`1.Priority">
+            <summary>
+             The priority order that this interceptor has for ordered execution by the event manager
+            </summary>
+        </member>
+        <member name="T:Highway.Data.IObservableDataContext">
+            <summary>
+            The interface used to surface events from a context that supports interceptors
+            </summary>
+        </member>
+        <member name="E:Highway.Data.IObservableDataContext.PreSave">
+            <summary>
+            The event fired just before the commit of the ORM
+            </summary>
+        </member>
+        <member name="E:Highway.Data.IObservableDataContext.PostSave">
+            <summary>
+            The event fired just after the commit of the ORM
+            </summary>
+        </member>
+        <member name="T:Highway.Data.IObservableQuery">
+            <summary>
+            The interface used to surface events for queries that support interceptors
+            </summary>
+        </member>
+        <member name="E:Highway.Data.IObservableQuery.PreQuery">
+            <summary>
+            The event fired just before the query goes to the database
+            </summary>
+        </member>
+        <member name="E:Highway.Data.IObservableQuery.PostQuery">
+            <summary>
+            The event fire just after the data is translated into objects but before the data is returned.
+            </summary>
+        </member>
+        <member name="T:Highway.Data.IQueryBase">
+            <summary>
+            The base interface that surfaces SQL output of the Query statement
+            </summary>
+        </member>
+        <member name="M:Highway.Data.IQueryBase.OutputSQLStatement(Highway.Data.IDataContext)">
+            <summary>
+            This executes the expression against the passed in context to generate the SQL statement, but doesn't execute the IQueryable against the data context
+            </summary>
+            <param name="context">The data context that the query is evaluated and the SQL is generated against</param>
+            <returns>The SQL Statement from the Query</returns>
+        </member>
+        <member name="M:Highway.Data.IQueryBase.OutputQuery(Highway.Data.IDataContext)">
+            <summary>
+            This executes the expression against the passed in context to generate the query details, but doesn't execute the IQueryable against the data context
+            </summary>
+            <param name="context">The data context that the query is evaluated and the details are generated against</param>
+            <returns>The details of the Statement from the Query</returns>
+        </member>
+        <member name="T:Highway.Data.IScalar`1">
+            <summary>
+            An Interface for Scalar Queries that return a single value or object
+            </summary>
+            <typeparam name="T">The Type that is being returned</typeparam>
+        </member>
+        <member name="M:Highway.Data.IScalar`1.Execute(Highway.Data.IDataContext)">
+            <summary>
+            Executes the expression against the passed in context
+            </summary>
+            <param name="context">The data context that the scalar query is executed against</param>
+            <returns>The instance of <typeparamref name="T"/> that the query materialized if any</returns>
+        </member>
+        <member name="T:Highway.Data.PrebuiltQueries.FindAll`1">
+            <summary>
+            Finds all items of a certain type in the database
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:Highway.Data.Query`1">
+            <summary>
+            The base implementation for Queries that return collections
+            </summary>
+            <typeparam name="T">The Type being requested</typeparam>
+        </member>
+        <member name="T:Highway.Data.QueryBase">
+            <summary>
+            The base query that allows for appending expressions, query extensions, and eventing
+            </summary>
+        </member>
+        <member name="T:Highway.Data.IExtendableQuery">
+            <summary>
+            This interface is used to allow for extension of prebuilt queries
+            </summary>
+        </member>
+        <member name="M:Highway.Data.IExtendableQuery.AddMethodExpression(System.String,System.Type[],System.Linq.Expressions.Expression[])">
+            <summary>
+            Adds a method to the expression in the query object
+            </summary>
+            <param name="methodName">The name of the method to be added i.e. GroupBy</param>
+            <param name="generics">Any type parameters needed by the method to be added</param>
+            <param name="parameters">Any object parameters needed by the method to be added</param>
+        </member>
+        <member name="F:Highway.Data.QueryBase.ExpressionList">
+            <summary>
+            Holds the expressions to be appended
+            </summary>
+        </member>
+        <member name="M:Highway.Data.QueryBase.AddMethodExpression(System.String,System.Type[],System.Linq.Expressions.Expression[])">
+            <summary>
+            Adds a method to the expression in the query object
+            </summary>
+            <param name="methodName">The name of the method to be added i.e. GroupBy</param>
+            <param name="generics">Any type parameters needed by the method to be added</param>
+            <param name="parameters">Any object parameters needed by the method to be added</param>
+        </member>
+        <member name="M:Highway.Data.QueryBase.CheckContextAndQuery(System.Object)">
+            <summary>
+            Checks the context and the Query for null
+            </summary>
+            <param name="query">The query to be executed</param>
+        </member>
+        <member name="P:Highway.Data.QueryBase.Context">
+            <summary>
+            The reference to the <see cref="T:Highway.Data.IDataContext"/> that gives data connection
+            </summary>
+        </member>
+        <member name="E:Highway.Data.QueryBase.PreQuery">
+            <summary>
+            The event fired just before the query goes to the database
+            </summary>
+        </member>
+        <member name="E:Highway.Data.QueryBase.PostQuery">
+            <summary>
+            The event fire just after the data is translated into objects but before the data is returned.
+            </summary>
+        </member>
+        <member name="T:Highway.Data.IQuery`1">
+            <summary>
+            An Interface for Queries that return collections
+            </summary>
+            <typeparam name="T">The Type being requested</typeparam>
+        </member>
+        <member name="M:Highway.Data.IQuery`1.Execute(Highway.Data.IDataContext)">
+            <summary>
+            This executes the expression in ContextQuery on the context that is passed in, resulting in a <see cref="T:System.Linq.IQueryable`1"/> that is returned as an <see cref="T:System.Collections.Generic.IEnumerable`1"/>
+            </summary>
+            <param name="context">the data context that the query should be executed against</param>
+            <returns>The collection of <typeparamref name="T"/> that the query materialized if any</returns>
+        </member>
+        <member name="M:Highway.Data.Query`1.Execute(Highway.Data.IDataContext)">
+            <summary>
+            This executes the expression in ContextQuery on the context that is passed in, resulting in a <see cref="T:System.Linq.IQueryable`1"/> that is returned as an <see cref="T:System.Collections.Generic.IEnumerable`1"/>
+            </summary>
+            <param name="context">the data context that the query should be executed against</param>
+            <returns><see cref="T:System.Collections.Generic.IEnumerable`1"/></returns>
+        </member>
+        <member name="M:Highway.Data.Query`1.OutputSQLStatement(Highway.Data.IDataContext)">
+            <summary>
+            This executes the expression against the passed in context to generate the SQL statement, but doesn't execute the IQueryable<typeparamref name="T"/> against the data context
+            </summary>
+            <param name="context">The data context that the query is evaluated and the SQL is generated against</param>
+            <returns></returns>
+        </member>
+        <member name="M:Highway.Data.Query`1.ExtendQuery">
+            <summary>
+            This method allows for the extension of Ordering and Grouping on the prebuild Query
+            </summary>
+            <returns>an <see cref="T:System.Linq.IQueryable`1"/></returns>
+        </member>
+        <member name="M:Highway.Data.Query`1.AppendExpressions(System.Linq.IQueryable{`0})">
+            <summary>
+            Gives the ability to apend an <see cref="T:System.Linq.IQueryable"/> onto the current query
+            </summary>
+            <param name="query">The query containing the expressions to append</param>
+            <returns>The combined query</returns>
+        </member>
+        <member name="P:Highway.Data.Query`1.ContextQuery">
+            <summary>
+            This holds the expression that will be used to create the <see cref="T:System.Linq.IQueryable`1"/> when executed on the context
+            </summary>
+        </member>
+        <member name="M:Highway.Data.PrebuiltQueries.FindAll`1.#ctor">
+            <summary>
+            Constructs a findall
+            </summary>
+        </member>
+        <member name="T:Highway.Data.PrebuiltQueries.GetById`2">
+            <summary>
+            
+            </summary>
+            <typeparam name="TId"></typeparam>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:Highway.Data.Scalar`1">
+            <summary>
+            Base implementation of a query that returns a single value or object
+            </summary>
+            <typeparam name="T">The type of object or value being returned</typeparam>
+        </member>
+        <member name="M:Highway.Data.Scalar`1.Execute(Highway.Data.IDataContext)">
+            <summary>
+            Executes the expression against the passed in context
+            </summary>
+            <param name="context">The data context that the scalar query is executed against</param>
+            <returns>The instance of <typeparamref name="T"/> that the query materialized if any</returns>
+        </member>
+        <member name="P:Highway.Data.Scalar`1.ContextQuery">
+            <summary>
+            The query to be executed later
+            </summary>
+        </member>
+        <member name="M:Highway.Data.PrebuiltQueries.GetById`2.#ctor(`0)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="T:Highway.Data.PrebuiltQueries.IIdentifiable`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:Highway.Data.PrebuiltQueries.Queries">
+            <summary>
+            Base Library of queries already built
+            </summary>
+        </member>
+        <member name="T:Highway.Data.Command">
+            <summary>
+            An implementation that executes functions against the database independant of the data access layer
+            </summary>
+        </member>
+        <member name="M:Highway.Data.Command.Execute(Highway.Data.IDataContext)">
+            <summary>
+            Executes the expression against the passed in context and ignores the returned value if any
+            </summary>
+            <param name="context">The data context that the command is executed against</param>
+        </member>
+        <member name="P:Highway.Data.Command.ContextQuery">
+            <summary>
+            The Command that will be executed at some point in the future
+            </summary>
+        </member>
+        <member name="T:Highway.Data.FindByCriteria`1">
+            <summary>
+            A Query object that takes Criteria and then returns the filtered IEnumerable
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Highway.Data.FindByCriteria`1.#ctor(Highway.Data.Filtering.Criteria)">
+            <summary>
+            Constructs the query
+            </summary>
+            <param name="criteria">The criteria that filters the query</param>
+        </member>
+        <member name="T:Highway.Data.Query`2">
+            <summary>
+            The base implemetation of a query that has a projection
+            </summary>
+            <typeparam name="TSelection">The Type that will be selected</typeparam>
+            <typeparam name="TProjection">The type that will be projected</typeparam>
+        </member>
+        <member name="T:Highway.Data.IQuery`2">
+            <summary>
+            An Interface for Queries that return collections
+            </summary>
+            <typeparam name="T">The Type being requested</typeparam>
+        </member>
+        <member name="M:Highway.Data.IQuery`2.Execute(Highway.Data.IDataContext)">
+            <summary>
+            This executes the expression in ContextQuery on the context that is passed in, resulting in a <see cref="T:System.Linq.IQueryable`1"/> that is returned as an <see cref="T:System.Collections.Generic.IEnumerable`1"/>
+            </summary>
+            <param name="context">the data context that the query should be executed against</param>
+            <returns>The collection of <typeparamref name="TProjection"/> that the query materialized if any</returns>
+        </member>
+        <member name="M:Highway.Data.Query`2.Execute(Highway.Data.IDataContext)">
+            <summary>
+            This executes the expression in ContextQuery on the context that is passed in, resulting in a <see cref="T:System.Linq.IQueryable`1"/> that is returned as an <see cref="T:System.Collections.Generic.IEnumerable`1"/>
+            </summary>
+            <param name="context">the data context that the query should be executed against</param>
+            <returns><see cref="T:System.Collections.Generic.IEnumerable`1"/></returns>
+        </member>
+        <member name="M:Highway.Data.Query`2.OutputSQLStatement(Highway.Data.IDataContext)">
+            <summary>
+            This executes the expression against the passed in context to generate the SQL statement, but doesn't execute the IQueryable<typeparamref name="T"/> against the data context
+            </summary>
+            <param name="context">The data context that the query is evaluated and the SQL is generated against</param>
+            <returns></returns>
+        </member>
+        <member name="M:Highway.Data.Query`2.ExtendQuery">
+            <summary>
+            This method allows for the extension of Ordering and Grouping on the prebuild Query
+            </summary>
+            <returns>an <see cref="T:System.Linq.IQueryable`1"/></returns>
+        </member>
+        <member name="M:Highway.Data.Query`2.AppendExpressions(System.Linq.IQueryable{`0})">
+            <summary>
+            Gives the ability to apend an <see cref="T:System.Linq.IQueryable"/> onto the current query
+            </summary>
+            <param name="query">The query containing the expressions to append</param>
+            <returns>The combined query</returns>
+        </member>
+        <member name="T:Highway.Data.QueryExtensions">
+            <summary>
+            A collection of extension methods for extending reusable IQuery objects
+            </summary>
+        </member>
+        <member name="M:Highway.Data.QueryExtensions.Take``1(Highway.Data.IQuery{``0},System.Int32)">
+            <summary>
+            Takes the specified number of records
+            </summary>
+            <param name="extend"></param>
+            <param name="count"></param>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Highway.Data.QueryExtensions.Skip``1(Highway.Data.IQuery{``0},System.Int32)">
+            <summary>
+            Skip the number of items specified
+            </summary>
+            <param name="extend"></param>
+            <param name="count"></param>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Highway.Data.QueryExtensions.Take``2(Highway.Data.IQuery{``0,``1},System.Int32)">
+            <summary>
+            Takes the specified number of records
+            </summary>
+            <param name="extend"></param>
+            <param name="count"></param>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Highway.Data.QueryExtensions.Skip``2(Highway.Data.IQuery{``0,``1},System.Int32)">
+            <summary>
+            Skip the number of items specified
+            </summary>
+            <param name="extend"></param>
+            <param name="count"></param>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="T:Highway.Data.Repository">
+            <summary>
+            A Entity Framework Specific repository implementation that uses Specification pattern to execute Queries in a controlled fashion.
+            </summary>
+        </member>
+        <member name="T:Highway.Data.IRepository">
+            <summary>
+            The interface used to interact with the ORM Specific Implementations
+            </summary>
+        </member>
+        <member name="M:Highway.Data.IRepository.Find``1(Highway.Data.IQuery{``0})">
+            <summary>
+            Executes a prebuilt <see cref="T:Highway.Data.IQuery`1"/> and returns an <see cref="T:System.Collections.Generic.IEnumerable`1"/>
+            </summary>
+            <typeparam name="T">The Entity being queried</typeparam>
+            <param name="query">The prebuilt Query Object</param>
+            <returns>The <see cref="T:System.Collections.Generic.IEnumerable`1"/> returned from the query</returns>
+        </member>
+        <member name="M:Highway.Data.IRepository.Find``1(Highway.Data.IScalar{``0})">
+            <summary>
+            Executes a prebuilt <see cref="T:Highway.Data.IScalar`1"/> and returns a single instance of <typeparamref name="T"/>
+            </summary>
+            <typeparam name="T">The Entity being queried</typeparam>
+            <param name="query">The prebuilt Query Object</param>
+            <returns>The instance of <typeparamref name="T"/> returned from the query</returns>
+        </member>
+        <member name="M:Highway.Data.IRepository.Execute(Highway.Data.ICommand)">
+            <summary>
+            Executes a prebuilt <see cref="T:Highway.Data.ICommand"/>
+            </summary>
+            <param name="command">The prebuilt command object</param>
+        </member>
+        <member name="P:Highway.Data.IRepository.Context">
+            <summary>
+            Reference to the Context the repository is using
+            </summary>
+        </member>
+        <member name="P:Highway.Data.IRepository.EventManager">
+            <summary>
+            Reference to the EventManager the repository is using
+            </summary>
+        </member>
+        <member name="M:Highway.Data.Repository.#ctor(Highway.Data.IDataContext)">
+            <summary>
+            Creates a Repository that uses the context provided
+            </summary>
+            <param name="context">The data context that this repository uses</param>
+        </member>
+        <member name="M:Highway.Data.Repository.Find``1(Highway.Data.IScalar{``0})">
+            <summary>
+            Executes a prebuilt <see cref="T:Highway.Data.IScalar`1"/> and returns a single instance of <typeparamref name="T"/>
+            </summary>
+            <typeparam name="T">The Entity being queried</typeparam>
+            <param name="query">The prebuilt Query Object</param>
+            <returns>The instance of <typeparamref name="T"/> returned from the query</returns>
+        </member>
+        <member name="M:Highway.Data.Repository.Execute(Highway.Data.ICommand)">
+            <summary>
+            Executes a prebuilt <see cref="T:Highway.Data.ICommand"/>
+            </summary>
+            <param name="command">The prebuilt command object</param>
+        </member>
+        <member name="M:Highway.Data.Repository.Find``1(Highway.Data.IQuery{``0})">
+            <summary>
+            Executes a prebuilt <see cref="T:Highway.Data.IQuery`1"/> and returns an <see cref="T:System.Collections.Generic.IEnumerable`1"/>
+            </summary>
+            <typeparam name="T">The Entity being queried</typeparam>
+            <param name="query">The prebuilt Query Object</param>
+            <returns>The <see cref="T:System.Collections.Generic.IEnumerable`1"/> returned from the query</returns>
+        </member>
+        <member name="M:Highway.Data.Repository.Find``2(Highway.Data.IQuery{``0,``1})">
+            <summary>
+            Executes a prebuilt <see cref="T:Highway.Data.IQuery`1"/> and returns an <see cref="T:System.Collections.Generic.IEnumerable`1"/>
+            </summary>
+            <typeparam name="T">The Entity being queried</typeparam>
+            <param name="query">The prebuilt Query Object</param>
+            <returns>The <see cref="T:System.Collections.Generic.IEnumerable`1"/> returned from the query</returns>
+        </member>
+        <member name="P:Highway.Data.Repository.Context">
+            <summary>
+            Reference to the DataContext the repository is using
+            </summary>
+        </member>
+        <member name="P:Highway.Data.Repository.EventManager">
+            <summary>
+            Reference to the EventManager the repository is using
+            </summary>
+        </member>
+        <member name="T:Highway.Data.Services.DefaultUserNameService">
+            <summary>
+            Stub implementation of the User Name service to supply example names for Auditable interceptor.
+            </summary>
+        </member>
+        <member name="T:Highway.Data.IUserNameService">
+            <summary>
+            This gives a standard interface for the user name service,
+            Which is leveraged by the PreSave interceptors to supply user names for audit tagging on entities.
+            </summary>
+        </member>
+        <member name="M:Highway.Data.IUserNameService.GetCurrentUserName">
+            <summary>
+            Basic Method for returning the current user name
+            </summary>
+            <returns>The current user's name or login</returns>
+        </member>
+        <member name="M:Highway.Data.Services.DefaultUserNameService.GetCurrentUserName">
+            <summary>
+            Basic Method for returning the current user name
+            </summary>
+            <returns>The current user's name or login</returns>
+        </member>
+        <member name="T:Highway.Data.IAuditableEntity">
+            <summary>
+            The interface to implement when using with the default Auditable Interceptor to specify an Auditable Entity
+            </summary>
+        </member>
+        <member name="P:Highway.Data.IAuditableEntity.CreatedDate">
+            <summary>
+            The date this entity was created
+            </summary>
+        </member>
+        <member name="P:Highway.Data.IAuditableEntity.CreatedBy">
+            <summary>
+            Who created this entity
+            </summary>
+        </member>
+        <member name="P:Highway.Data.IAuditableEntity.ModifiedDate">
+            <summary>
+            The date this entity was last modified
+            </summary>
+        </member>
+        <member name="P:Highway.Data.IAuditableEntity.ModifiedBy">
+            <summary>
+            Who last modified this entity
+            </summary>
+        </member>
+        <member name="T:Highway.Data.EnumerableExtensions">
+            <summary>
+            Extensions to make dealing with enumerable collections easier
+            </summary>
+        </member>
+        <member name="M:Highway.Data.EnumerableExtensions.Each``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})">
+            <summary>
+            Executes an action for each item in an enumerable collection, this breaks defered execution
+            </summary>
+            <param name="items">The collection to be executed against</param>
+            <param name="action">The action to be executed against the collection</param>
+            <typeparam name="T">The type of objects in the collection</typeparam>
+            <returns>The collection after the execution occurs</returns>
+        </member>
+        <member name="T:System.Linq.Dynamic.DynamicQueryable">
+            <summary>
+                Microsoft provided class. It allows dynamic string based querying.
+                Very handy when, at compile time, you don't know the type of queries that will be generated.
+            </summary>
+        </member>
+        <member name="T:System.Linq.Dynamic.DynamicEnumerable">
+            <summary>
+                Microsoft provided class. It allows dynamic string based querying.
+                Very handy when, at compile time, you don't know the type of queries that will be generated.
+            </summary>
+        </member>
+    </members>
+</doc>

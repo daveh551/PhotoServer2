@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
+  <metadata>
+    <id>Highway.Onramp.MVC.Data</id>
+    <version>3.0.0.0-Alpha2</version>
+    <authors>Tim Rayburn and Devlin Liles</authors>
+    <owners>Tim Rayburn and Devlin Liles</owners>
+    <licenseUrl>http://hwyfwk.com/license.html</licenseUrl>
+    <projectUrl>http://hwyfwk.com/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Quickstart package for Highway Framework in an MVC project.</description>
+    <copyright>Copyright 2013 Timothy J. Rayburn</copyright>
+    <tags>Highway MVC architecture</tags>
+    <dependencies>
+      <dependency id="Highway.Onramp.MVC" />
+      <dependency id="Highway.Data.EntityFramework" />
+    </dependencies>
+  </metadata>
+</package>

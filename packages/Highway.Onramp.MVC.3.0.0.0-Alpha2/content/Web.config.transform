@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <configSections>
+    <sectionGroup name="common">
+      <section name="logging" type="Common.Logging.ConfigurationSectionHandler, Common.Logging" />
+    </sectionGroup>
+  </configSections>
+  <appSettings>
+    <add key="EntityFramework.ConnectionString" value="Server=.;Database=ChangeMyConnectionString;Integrated Security=true;" />
+    <add key="EntityFramework.Initializer" value="DropCreateDatabaseAlways" />
+  </appSettings>
+  <common>
+    <logging>
+      <factoryAdapter type="Common.Logging.NLog.NLogLoggerFactoryAdapter, Common.Logging.NLog">
+        <arg key="configType" value="FILE" />
+        <arg key="configFile" value="~/NLog.config" />
+      </factoryAdapter>
+    </logging>
+  </common>
+</configuration>

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Highway.Data.EntityFramework</id>
+    <version>4.1.0.2</version>
+    <title>Highway.Data.EntityFramework</title>
+    <authors>Devlin Liles and Tim Rayburn</authors>
+    <owners>Devlin Liles and Tim Rayburn</owners>
+    <licenseUrl>https://github.com/HighwayFramework/Highway.Data/license.txt</licenseUrl>
+    <projectUrl>https://github.com/HighwayFramework</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>The fastest and smoothest way to great architecture</description>
+    <releaseNotes>First Major Release</releaseNotes>
+    <copyright>Devlin Liles Copyright 2012</copyright>
+    <tags>Architecture ORM Repository Specification Productivity</tags>
+    <dependencies>
+      <dependency id="Highway.Data" version="4.1.0.1" />
+      <dependency id="EntityFramework" version="5.0.0.0" />
+      <dependency id="Common.Logging" version="2.1.1" />
+      <dependency id="CommonServiceLocator" version="1.0" />
+    </dependencies>
+  </metadata>
+</package>

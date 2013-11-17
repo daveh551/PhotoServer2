@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Highway.Pavement</id>
+    <version>0.3.0.0</version>
+    <title>Highway.Pavement</title>
+    <authors>Devlin Liles and Tim Rayburn</authors>
+    <owners>Devlin Liles and Tim Rayburn</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>The fastest and smoothest way to great architecture</description>
+    <copyright>Copyright © Devlin Liles 2012</copyright>
+    <dependencies>
+      <dependency id="Common.Logging" version="2.1.2" />
+    </dependencies>
+  </metadata>
+</package>
