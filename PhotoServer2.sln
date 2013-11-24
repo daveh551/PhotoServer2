@@ -9,6 +9,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoServer.Domain", "..\Ra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoServer.DataAccessLayer", "..\PhotoServer.DataAccessLayer\PhotoServer.DataAccessLayer.csproj", "{3CE4F023-BC86-43A3-9442-CD664463A16D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoServer_Tests", "PhotoServer_Tests\PhotoServer_Tests.csproj", "{A2A5E33B-791C-4CE0-8040-9586505032B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RacePhotosTestSupport", "RacePhotosTestSupport\RacePhotosTestSupport.csproj", "{5056E31E-12C6-440C-8C50-E7DB2CCD060C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoServer.Storage", "Storage\PhotoServer.Storage.csproj", "{67551A25-F3E9-4E0D-9190-84E6A906E04E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Azure|Any CPU = Azure|Any CPU
@@ -34,6 +40,24 @@ Global
 		{3CE4F023-BC86-43A3-9442-CD664463A16D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3CE4F023-BC86-43A3-9442-CD664463A16D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3CE4F023-BC86-43A3-9442-CD664463A16D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2A5E33B-791C-4CE0-8040-9586505032B0}.Azure|Any CPU.ActiveCfg = Azure|Any CPU
+		{A2A5E33B-791C-4CE0-8040-9586505032B0}.Azure|Any CPU.Build.0 = Azure|Any CPU
+		{A2A5E33B-791C-4CE0-8040-9586505032B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2A5E33B-791C-4CE0-8040-9586505032B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2A5E33B-791C-4CE0-8040-9586505032B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2A5E33B-791C-4CE0-8040-9586505032B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5056E31E-12C6-440C-8C50-E7DB2CCD060C}.Azure|Any CPU.ActiveCfg = Azure|Any CPU
+		{5056E31E-12C6-440C-8C50-E7DB2CCD060C}.Azure|Any CPU.Build.0 = Azure|Any CPU
+		{5056E31E-12C6-440C-8C50-E7DB2CCD060C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5056E31E-12C6-440C-8C50-E7DB2CCD060C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5056E31E-12C6-440C-8C50-E7DB2CCD060C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5056E31E-12C6-440C-8C50-E7DB2CCD060C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67551A25-F3E9-4E0D-9190-84E6A906E04E}.Azure|Any CPU.ActiveCfg = Release|Any CPU
+		{67551A25-F3E9-4E0D-9190-84E6A906E04E}.Azure|Any CPU.Build.0 = Release|Any CPU
+		{67551A25-F3E9-4E0D-9190-84E6A906E04E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67551A25-F3E9-4E0D-9190-84E6A906E04E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67551A25-F3E9-4E0D-9190-84E6A906E04E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67551A25-F3E9-4E0D-9190-84E6A906E04E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

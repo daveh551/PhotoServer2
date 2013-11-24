@@ -332,6 +332,10 @@
       <Project>{f8be44f9-5540-4d9d-84f8-a2614cd30987}</Project>
       <Name>PhotoServer.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Storage\PhotoServer.Storage.csproj">
+      <Project>{67551a25-f3e9-4e0d-9190-84e6a906e04e}</Project>
+      <Name>PhotoServer.Storage</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

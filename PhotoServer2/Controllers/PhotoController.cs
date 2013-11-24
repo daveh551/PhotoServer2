@@ -8,26 +8,35 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
+using Highway.Data;
 using PhotoServer.Domain;
-using PhotoServer2.Models;
+using PhotoServer.DataAccessLayer.Queries;
+using PhotoServer.Storage;
 
 namespace PhotoServer2.Controllers
 {
     public class PhotoController : ApiController
     {
-        private PhotoDbContext db = new PhotoDbContext();
+        private IRepository _repo = null;
+        private IStorageProvider _store = null;
+
+        public PhotoController(IRepository repo, IStorageProvider provider)
+        {
+            _repo = repo;
+            _store = provider;
+        }
 
         // GET api/Photo
-        public IQueryable<Photo> GetPhotos()
+        public IEnumerable<Photo> GetPhotos()
         {
-            return db.Photos;
+            return _repo.Find(new PhotoServer.DataAccessLayer.Queries.FindAllPhotos());
         }
 
         // GET api/Photo/5
         [ResponseType(typeof(Photo))]
         public IHttpActionResult GetPhoto(Guid id)
         {
-            Photo photo = db.Photos.Find(id);
+            Photo photo = _repo.Find(new FindPhotoById(id));
             if (photo == null)
             {
                 return NotFound();
@@ -39,6 +48,7 @@ namespace PhotoServer2.Controllers
         // PUT api/Photo/5
         public IHttpActionResult PutPhoto(Guid id, Photo photo)
         {
+            // Merge photo[ID] with photo argument and validate changes
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -49,11 +59,11 @@ namespace PhotoServer2.Controllers
                 return BadRequest();
             }
 
-            db.Entry(photo).State = EntityState.Modified;
+            _repo.Context.Update(photo);
 
             try
             {
-                db.SaveChanges();
+                _repo.Context.Commit();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -79,11 +89,11 @@ namespace PhotoServer2.Controllers
                 return BadRequest(ModelState);
             }
 
-            db.Photos.Add(photo);
+            _repo.Context.Add(photo);
 
             try
             {
-                db.SaveChanges();
+                _repo.Context.Commit();
             }
             catch (DbUpdateException)
             {
@@ -104,30 +114,31 @@ namespace PhotoServer2.Controllers
         [ResponseType(typeof(Photo))]
         public IHttpActionResult DeletePhoto(Guid id)
         {
-            Photo photo = db.Photos.Find(id);
+            Photo photo = _repo.Find(new FindPhotoById(id));
             if (photo == null)
             {
                 return NotFound();
             }
 
-            db.Photos.Remove(photo);
-            db.SaveChanges();
+            _repo.Context.Remove(photo);
+            _repo.Context.Commit();
 
             return Ok(photo);
         }
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                db.Dispose();
-            }
+            // don't really need to do this - the IoC will manage the repo
+            //if (disposing)
+            //{
+            //    db.Dispose();
+            //}
             base.Dispose(disposing);
         }
 
         private bool PhotoExists(Guid id)
         {
-            return db.Photos.Count(e => e.Id == id) > 0;
+            return _repo.Find(new FindPhotoById(id)) != null;
         }
     }
 }
