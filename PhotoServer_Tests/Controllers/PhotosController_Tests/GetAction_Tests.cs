@@ -1,3 +1,4 @@
+using System.Threading;
 using NUnit.Framework;
 using PhotoServer.Storage;
 using PhotoServer2.Controllers;
@@ -28,12 +29,12 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 		[SetUp]
 		public void Init()
 		{
-			var db = new FakeDataSource();
+		    var db = new FakeRepository();
 			var testRecords = ObjectMother.ReturnPhotoDataRecord(3);
-			testRecords.ForEach( r => db.Photos.Add(r));
-			db.SaveChanges();
-			target = new PhotosController(db, provider);
-			target.context = new FakeHttpContext();
+			testRecords.ForEach( r => db.Context.Add(r));
+			db.Context.Commit();
+			target = new PhotoController(db, provider);
+			//target. = new FakeHttpContext();
 
 		}
 
@@ -50,7 +51,7 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 			//Arrange
 			var expectedCount = 3;
 			//Act
-			var result = target.Get();
+			var result = target.GetPhotos();
 			var count = result.ToList().Count;
 			//Assert
 
@@ -65,7 +66,7 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 			var expectedStatus = HttpStatusCode.NotFound;
 			Guid recordID = new Guid();
 			//Act
-			HttpResponseMessage result = target.Get(recordID);
+			HttpResponseMessage result = target.GetPhoto(recordID).ExecuteAsync(new CancellationToken()).Result;
 			//Assert
 			Assert.AreEqual(expectedStatus, result.StatusCode, "Status Code");
 		}
@@ -78,7 +79,7 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 			var expectedStatus = HttpStatusCode.OK;
 			Guid recordId = ObjectMother.ReturnPhotoDataRecord(1)[0].Id;
 			//Act
-			var result = target.Get(recordId);
+			var result = target.GetPhoto(recordId).ExecuteAsync(new CancellationToken()).Result;
 			//Assert
 			Assert.AreEqual(expectedStatus, result.StatusCode, "Status Code");
 			Assert.IsNotNull(result.Content, "Content is null");

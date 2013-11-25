@@ -14,7 +14,7 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
         [TestFixtureSetUp]
         public override void InitFixture()
         {
-            PhotoServer.App_Start.InitializeMapper.MapClasses();
+            //PhotoServer.App_Start.InitializeMapper.MapClasses();
             ObjectMother.SetPhotoPath();
             provider = new FileStorageProvider(ObjectMother.photoPath);
             ObjectMother.ClearDirectory(provider);

@@ -10,10 +10,12 @@ namespace PhotoServer2.Models
     [Obsolete("Used for scaffolding new controllers only")]
     public class PhotoDbContext : DbContext
     {
+#pragma warning disable 0169
         private DbSet<Race> _races;
         private DbSet<Event> _events;
         private DbSet<Photo> _photos;
         private DbSet<Distance> _distances;
+#pragma warning restore 0169
 
         public PhotoDbContext() : base("DefaultConnection")
         {

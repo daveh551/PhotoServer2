@@ -12,6 +12,7 @@ using Highway.Data;
 using PhotoServer.Domain;
 using PhotoServer.DataAccessLayer.Queries;
 using PhotoServer.Storage;
+using PhotoServer2.Models;
 
 namespace PhotoServer2.Controllers
 {
@@ -46,7 +47,7 @@ namespace PhotoServer2.Controllers
         }
 
         // PUT api/Photo/5
-        public IHttpActionResult PutPhoto(Guid id, Photo photo)
+        public IHttpActionResult PutPhoto(Guid id, PhotoData photo)
         {
             // Merge photo[ID] with photo argument and validate changes
             if (!ModelState.IsValid)
@@ -81,14 +82,16 @@ namespace PhotoServer2.Controllers
         }
 
         // POST api/Photo
-        [ResponseType(typeof(Photo))]
-        public IHttpActionResult PostPhoto(Photo photo)
+        [ResponseType(typeof(PhotoData))]
+        public IHttpActionResult PostPhoto()
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
+            //TODO: get photo from body, create PhotoDat
+            var photo = new Photo();
             _repo.Context.Add(photo);
 
             try

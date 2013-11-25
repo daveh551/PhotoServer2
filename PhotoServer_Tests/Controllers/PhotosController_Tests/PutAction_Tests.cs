@@ -4,6 +4,8 @@ using PhotoServer.Domain;
 using PhotoServer.Storage;
 using PhotoServer2.Controllers;
 using RacePhotosTestSupport;
+using PhotoServer.DataAccessLayer.Queries;
+using PhotoServer2.Models;
 
 namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 {
@@ -25,7 +27,7 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 		[SetUp]
 		public void Init()
 		{
-			fakeDataSource = new Repository();
+			fakeDataSource = new FakeRepository();
 			var photoRecordList = ObjectMother.ReturnPhotoDataRecord(3);
 			foreach (var photo in photoRecordList)
 			{
@@ -51,7 +53,7 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 		{
 			//Arrange
 			string expected = "FillsInDataFields";
-			var photoRecord = fakeDataSource.Photos.FindAll().FirstOrDefault();
+		    var photoRecord = fakeDataSource.Find(new FindFirstPhoto());
 			var photoData = AutoMapper.Mapper.Map<Photo, PhotoData>(photoRecord);
 			photoData.Race = "Test.5K";
 			photoData.Station = "FinishLine";
@@ -59,10 +61,10 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 			photoData.Sequence = 1;
 			//Act
 
-			target.Put(photoRecord.Id, photoData);
+			target.PutPhoto(photoRecord.Id, photoData);
 
 			//Assert
-			var resultPhotoRecord = fakeDataSource.Photos.FindById(photoRecord.Id);
+			var resultPhotoRecord = fakeDataSource.Find( new FindPhotoById(photoRecord.Id));
 			Assert.IsNotNull(resultPhotoRecord);
 			Assert.AreEqual(1, resultPhotoRecord.RaceId,  "Race");
 			Assert.AreEqual("FinishLine", resultPhotoRecord.Station, "Station");
