@@ -37,8 +37,8 @@ namespace RacePhotosTestSupport
 		public static void ClearFileStorageDirectory()
 		{
 			SetPhotoPath();
-			var directoryPath = Path.Combine(photoPath, "Test");
-			var directoryInfo = new DirectoryInfo(photoPath);
+			var directoryPath = Path.Combine(photoPath, testDirectory);
+			var directoryInfo = new DirectoryInfo(directoryPath);
 			if (directoryInfo.Exists)
 			{
 				directoryInfo.Delete(true);

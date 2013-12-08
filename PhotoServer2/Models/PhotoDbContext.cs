@@ -7,7 +7,7 @@ using PhotoServer.Domain;
 
 namespace PhotoServer2.Models
 {
-    [Obsolete("Used for scaffolding new controllers only")]
+    [Obsolete("Used for scaffolding new controllers and data migrations only")]
     public class PhotoDbContext : DbContext
     {
 #pragma warning disable 0169

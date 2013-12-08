@@ -14,7 +14,7 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 	{
 		#region SetUp / TearDown
 
-		private PhotoController target;
+		private PhotosController target;
 		private IRepository fakeDataSource;
 	    protected IStorageProvider provider;
 		[TestFixtureSetUp]
@@ -34,7 +34,7 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 				fakeDataSource.Context.Add(photo);
 			}
 			fakeDataSource.Context.Commit();
-			target = new PhotoController(fakeDataSource, provider);
+			target = new PhotosController(fakeDataSource, provider);
 		}
 
 
@@ -52,7 +52,6 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 		public void Put_PassingRaceData_FillsInDataFields()
 		{
 			//Arrange
-			string expected = "FillsInDataFields";
 		    var photoRecord = fakeDataSource.Find(new FindFirstPhoto());
 			var photoData = AutoMapper.Mapper.Map<Photo, PhotoData>(photoRecord);
 			photoData.Race = "Test.5K";

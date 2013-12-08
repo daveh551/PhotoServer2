@@ -1,6 +1,9 @@
+using System.Net.Mime;
 using System.Threading;
 using System.Web.Http;
+using System.Web.Http.Controllers;
 using Highway.Data;
+using Microsoft.WindowsAzure.Storage.Core;
 using NUnit.Framework;
 using PhotoServer.DataAccessLayer.Queries;
 using PhotoServer.Domain;
@@ -25,7 +28,8 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 	{
 		#region SetUp / TearDown
 
-		private PhotoController target;
+		private PhotosController target;
+	    private byte[] image;  // the photo being sent to  post
 		private string pathArgument = @"Test.5K\FinishLine\1\001.jpg";
 		private int raceArgument = 1;
 		private string eventName = "Test";
@@ -49,10 +53,16 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 		{
 			var fileName = @"..\..\TestFiles\Run For The Next Generation 2011 001.JPG";
 			fakeDataSource =   new FakeRepository();
-			target = new PhotoController(fakeDataSource, provider);
+			target = new PhotosController(fakeDataSource, provider);
 			target.ControllerContext = new FakeControllerContext();
+		    target.Configuration = target.ControllerContext.Configuration;
 			target.ControllerContext.Request = SetupContent(fileName);
-			//target.context = new  FakeHttpContext();
+		    target.Request = target.ControllerContext.Request;
+            target.Request.SetRequestContext(new HttpRequestContext() {VirtualPathRoot = "/"});
+            target.Request.SetConfiguration(target.Configuration);
+		    target.RequestContext = target.Request.GetRequestContext();
+            target.Configuration.EnsureInitialized();
+		    //target.context = new  FakeHttpContext();
 		}
 		private HttpRequestMessage SetupContent(string fileName)
 		{
@@ -61,7 +71,7 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 			using (var file = new BinaryReader(new FileStream(fileName, FileMode.Open)))
 			{
 				fileSize = (int) new FileInfo(fileName).Length;
-				var image = file.ReadBytes( fileSize);
+				image = file.ReadBytes( fileSize);
 				req.Content = new ByteArrayContent(image);
 				req.Content.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
 			}
@@ -76,7 +86,25 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 		#endregion
 
 		#region Tests
-		
+
+
+
+        [Test]
+        public void PostPhoto_NoPhotoSupplied_ReturnsBadRequest()
+        {
+            //Arrange
+            var expectedStatus = HttpStatusCode.BadRequest;
+            // Default setup creates a photo in the content, so we need to
+            // remove it for this test.
+            target.Request.Content = null;
+            image = null;
+            //Act
+            var result = target.PostPhoto(image).ExecuteAsync(new CancellationToken()).Result;
+            //Assert
+
+            Assert.AreEqual(expectedStatus, result.StatusCode, "Expected status was not returned.");
+        }
+        
 	
 		[Test]
 		public void Post_WithNewPhoto_ShouldAddPhotosDataItemToDB()
@@ -84,7 +112,7 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 			//Arrange
 			ObjectMother.ClearDirectory(provider);
 			//Act
-			var result = target.PostPhoto();
+			var result = target.PostPhoto(image);
 			//Assert
 			Assert.AreEqual(1, fakeDataSource.Find<Photo>(new FindAllPhotos()).Count((item) =>true));
 		}
@@ -96,10 +124,10 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 			//Arrange
 			ObjectMother.ClearDirectory(provider);
 			//Act
-		    var result = target.PostPhoto();
+		    var result = target.PostPhoto(image);
 			
 			//Assert
-			Assert.IsInstanceOf(typeof(CreatedNegotiatedContentResult<PhotoData>), result, "request failed to return Created status code");
+			Assert.IsInstanceOf(typeof(CreatedAtRouteNegotiatedContentResult<Photo>), result, "request failed to return Created status code");
 		    var hdr = GetHttpResult(result).Headers;
 			Assert.IsNotNull(hdr.Location, "Location Header is null");
 			Assert.That(hdr.Location.OriginalString.StartsWith("/api/Photos/"));
@@ -112,7 +140,7 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 			//Arrange
 			ObjectMother.ClearDirectory(provider);
 			//Act
-			var result = target.PostPhoto().ExecuteAsync(new CancellationToken()).Result;
+			var result = target.PostPhoto(image).ExecuteAsync(new CancellationToken()).Result;
 			var dataItem = fakeDataSource.Find(new FindFirstPhoto());
 			Assert.AreEqual(HttpStatusCode.Created, result.StatusCode, "request failed to return Created status code");
 			var body = result.Content;
@@ -136,7 +164,7 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 			ObjectMother.ClearDirectory(provider);
 
 			//Act
-		    var result = target.PostPhoto();
+		    var result = target.PostPhoto(image);
 			//Assert
 			var resultPath = Path.Combine("originals", GetResultGuid(GetHttpResult(result)));
 			Assert.That(provider.FileExists(resultPath));
@@ -153,7 +181,7 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 			int expectedVres = 2000;
 			ObjectMother.ClearDirectory(provider);
 			//Act
-		    var result = target.PostPhoto();
+		    var result = target.PostPhoto(image);
 			var bodyString = GetHttpResult(result).Content.ReadAsStringAsync().Result;
 			var resultData = Json.Decode<PhotoServer2.Models.PhotoData>(bodyString);
 
@@ -171,7 +199,7 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 			string expected = "localhost";
 			ObjectMother.ClearDirectory(provider);
 			//Act
-		    var result = target.PostPhoto();
+		    var result = target.PostPhoto(image);
 			var resultId = GetResultGuid(GetHttpResult(result));
 			var serverResult = fakeDataSource.Find(new FindPhotoById(new Guid(resultId))).Server;
 			//Assert
@@ -192,7 +220,7 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 			//Arrange
 			ObjectMother.ClearDirectory(provider);
 			//Act
-		    var result = target.PostPhoto();
+		    var result = target.PostPhoto(image);
 			var resultId = GetResultGuid(GetHttpResult(result));
 			var fileLen = fakeDataSource.Find(new FindPhotoById(new Guid(resultId))).FileSize;
 			//Assert
@@ -207,7 +235,7 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 			DateTime expectedAccessTime = DateTime.Now;
 			ObjectMother.ClearDirectory(provider);
 			//Act
-		    var result = target.PostPhoto();
+		    var result = target.PostPhoto(image);
 			Assert.IsInstanceOf(typeof(CreatedNegotiatedContentResult<PhotoData>), result, "Failed to return Created status");
 			var resultId = GetResultGuid(GetHttpResult(result));
 			var accessTime = fakeDataSource.Find(new FindPhotoById(new Guid(resultId))).LastAccessed;
@@ -225,7 +253,7 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 			string expected = "f/6.3";
 			ObjectMother.ClearDirectory(provider);
 			//Act
-			var result = target.PostPhoto();
+			var result = target.PostPhoto(image);
 			Assert.IsInstanceOf(typeof(CreatedNegotiatedContentResult<PhotoData>), result, "Failed to return Created status");
 			var bodyString = GetHttpResult(result).Content.ReadAsStringAsync().Result;
 			var resultData = Json.Decode<PhotoServer2.Models.PhotoData>(bodyString);
@@ -239,7 +267,7 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 			string expected = "1/160";
 			ObjectMother.ClearDirectory(provider);
 			//Act
-			var result = target.PostPhoto();
+			var result = target.PostPhoto(image);
 			Assert.IsInstanceOf(typeof(CreatedNegotiatedContentResult<PhotoData>), result, "Failed to return Created status");
             
 			var bodyString = GetHttpResult(result).Content.ReadAsStringAsync().Result;
@@ -260,7 +288,7 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 			short expected = 200;
 			ObjectMother.ClearDirectory(provider);
 			//Act
-			var result = target.PostPhoto();
+			var result = target.PostPhoto(image);
 			Assert.IsInstanceOf(typeof(CreatedNegotiatedContentResult<PhotoData>), result, "Failed to return Created status");
 			var bodyString =GetHttpResult(result).Content.ReadAsStringAsync().Result;
 			var resultData = Json.Decode<PhotoServer2.Models.PhotoData>(bodyString);
@@ -275,7 +303,7 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 			short expected = 26;
 			ObjectMother.ClearDirectory(provider);
 			//Act
-			var result = target.PostPhoto();
+			var result = target.PostPhoto(image);
 			Assert.IsInstanceOf(typeof(CreatedNegotiatedContentResult<PhotoData>), result, "Failed to return Created status");
 			var bodyString = GetHttpResult(result).Content.ReadAsStringAsync().Result;
 			var resultData = Json.Decode<PhotoServer2.Models.PhotoData>(bodyString);
@@ -291,7 +319,7 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 			string expected = "FinishLineAdmin";
 			ObjectMother.ClearDirectory(provider);
 			//Act
-			var result = target.PostPhoto();
+			var result = target.PostPhoto(image);
 			Assert.IsInstanceOf(typeof(CreatedNegotiatedContentResult<PhotoData>), result, "Failed to return Created status");
 			var bodyString = GetHttpResult(result).Content.ReadAsStringAsync().Result;
 			var resultData = Json.Decode<PhotoServer2.Models.PhotoData>(bodyString);
@@ -307,7 +335,7 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 			DateTime expectedTime = DateTime.Now;
 			ObjectMother.ClearDirectory(provider);
 			//Act
-			var result = target.PostPhoto();
+			var result = target.PostPhoto(image);
 			Assert.IsInstanceOf(typeof(CreatedNegotiatedContentResult<PhotoData>), result, "Failed to return Created status");
 			var bodyString = GetHttpResult(result).Content.ReadAsStringAsync().Result;
 			var resultData = Json.Decode<PhotoServer2.Models.PhotoData>(bodyString);

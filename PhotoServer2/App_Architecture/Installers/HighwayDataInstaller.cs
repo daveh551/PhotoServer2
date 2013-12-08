@@ -21,7 +21,11 @@ namespace PhotoServer2.App_Architecture.Installers
                 Component.For<IEventManager>().ImplementedBy<EventManager>()
                     .LifestyleSingleton(),
                 Component.For<IContextConfiguration>().ImplementedBy<DefaultContextConfiguration>()
+                    .LifestyleSingleton(),
+                    Component.For<IMappingConfiguration>()
+                    .ImplementedBy<PhotoServer.DataAccessLayer.Mappings.HighwayMappingConfiguration>()
                     .LifestyleSingleton()
+
                 );
         }
     }

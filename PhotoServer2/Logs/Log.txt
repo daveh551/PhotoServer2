@@ -1,1 +1,16 @@
-2013-11-22 18:50:42.5030|INFO|Default|Application Startup Completed
+2013-12-07 11:51:45.2507|INFO|Default|Application Startup Completed
+2013-12-07 12:00:54.8021|INFO|Default|Application Startup Completed
+2013-12-07 12:06:11.6180|INFO|Default|Application Shutdown
+2013-12-07 12:54:31.7639|INFO|Default|Application Startup Completed
+2013-12-07 15:21:03.6852|INFO|Default|Application Startup Completed
+2013-12-07 15:23:31.3476|INFO|Default|Application Startup Completed
+2013-12-07 15:23:42.1430|DEBUG|Common.Logging.ILog|Querying Object Photo
+2013-12-07 15:23:42.2070|DEBUG|Common.Logging.ILog|Queried Object Photo
+2013-12-07 15:23:42.5140|DEBUG|Common.Logging.ILog|	OnModelCreating
+2013-12-07 15:28:07.7535|INFO|Default|Application Startup Completed
+2013-12-07 15:30:10.4707|DEBUG|Common.Logging.ILog|	OnModelCreating
+2013-12-07 15:36:35.3683|INFO|Default|Application Startup Completed
+2013-12-07 17:01:46.0285|INFO|Default|Application Startup Completed
+2013-12-07 17:02:21.8280|DEBUG|Common.Logging.ILog|Querying Object Photo
+2013-12-07 17:02:21.8710|DEBUG|Common.Logging.ILog|Queried Object Photo
+2013-12-07 17:02:22.4720|DEBUG|Common.Logging.ILog|	OnModelCreating

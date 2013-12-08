@@ -1,5 +1,10 @@
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading;
+using System.Web.Helpers;
+using Newtonsoft.Json;
 using NUnit.Framework;
+using PhotoServer.Domain;
 using PhotoServer.Storage;
 using PhotoServer2.Controllers;
 using System;
@@ -15,7 +20,7 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 	{
 		#region SetUp / TearDown
 
-		private PhotoController target;
+		private PhotosController target;
 		protected IStorageProvider provider;
 
 		[TestFixtureSetUp]
@@ -33,8 +38,8 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 			var testRecords = ObjectMother.ReturnPhotoDataRecord(3);
 			testRecords.ForEach( r => db.Context.Add(r));
 			db.Context.Commit();
-			target = new PhotoController(db, provider);
-			//target. = new FakeHttpContext();
+			target = new PhotosController(db, provider);
+            target.ControllerContext = new FakeControllerContext();
 
 		}
 
@@ -50,11 +55,15 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 		{
 			//Arrange
 			var expectedCount = 3;
+            target.Request = new HttpRequestMessage(HttpMethod.Get, "http://localhost/api/Photos");
 			//Act
-			var result = target.GetPhotos();
-			var count = result.ToList().Count;
+			var result = target.GetPhotos().ExecuteAsync(new CancellationToken()).Result;
 			//Assert
+            var bodyString = result.Content.ReadAsStringAsync().Result;
+            var resultData = Json.Decode<IEnumerable<Photo>>(bodyString);
 
+            Assert.IsInstanceOf(typeof(IEnumerable<Photo>), resultData, "returned wrong type");
+		    var count =  resultData.ToList().Count;
 			Assert.AreEqual(expectedCount, count, "Return record count");
 		}
 
@@ -65,6 +74,7 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 			//Arrange
 			var expectedStatus = HttpStatusCode.NotFound;
 			Guid recordID = new Guid();
+            target.Request = new HttpRequestMessage(HttpMethod.Get, "http://localhost/api/Photos/" + recordID.ToString());
 			//Act
 			HttpResponseMessage result = target.GetPhoto(recordID).ExecuteAsync(new CancellationToken()).Result;
 			//Assert
@@ -78,6 +88,7 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 			//Arrange
 			var expectedStatus = HttpStatusCode.OK;
 			Guid recordId = ObjectMother.ReturnPhotoDataRecord(1)[0].Id;
+            target.Request = new HttpRequestMessage(HttpMethod.Get, "http://localhost/api/Photos/" + recordId.ToString());
 			//Act
 			var result = target.GetPhoto(recordId).ExecuteAsync(new CancellationToken()).Result;
 			//Assert
