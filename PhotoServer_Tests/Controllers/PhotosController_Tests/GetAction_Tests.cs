@@ -26,20 +26,38 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 		[TestFixtureSetUp]
 		public virtual void InitFixture()
 		{
-			//PhotoServer.App_Start.InitializeMapper.MapClasses();
-			provider = new AzureStorageProvider(@"UseDevelopmentStorage=true", "images");
-			ObjectMother.ClearDirectory(provider);
-			ObjectMother.CopyTestFiles(provider);
+		    try
+		    {
+                //PhotoServer.App_Start.InitializeMapper.MapClasses();
+                provider = new AzureStorageProvider(@"UseDevelopmentStorage=true", "images");
+                ObjectMother.ClearDirectory(provider);
+                ObjectMother.CopyTestFiles(provider);
+
+		    }
+		    catch (Exception ex)
+		    {
+		        var msg = ex.Message;
+		        throw;
+		    }
 		}
 		[SetUp]
 		public void Init()
 		{
-		    var db = new FakeRepository();
-			var testRecords = ObjectMother.ReturnPhotoDataRecord(3);
-			testRecords.ForEach( r => db.Context.Add(r));
-			db.Context.Commit();
-			target = new PhotosController(db, provider);
-            target.ControllerContext = new FakeControllerContext();
+		    try
+		    {
+                var db = new FakeRepository();
+                var testRecords = ObjectMother.ReturnPhotoDataRecord(3);
+                testRecords.ForEach( r => db.Context.Add(r));
+                db.Context.Commit();
+                target = new PhotosController(db, provider);
+                target.ControllerContext = new FakeControllerContext();
+
+		    }
+		    catch (Exception ex)
+		    {
+		        var msg = ex.Message;
+		        throw;
+		    }
 
 		}
 

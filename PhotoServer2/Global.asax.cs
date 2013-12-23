@@ -6,6 +6,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using PhotoServer2.App_Start;
 
 namespace PhotoServer2
 {
@@ -18,6 +19,7 @@ namespace PhotoServer2
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            InitializeMapper.MapClasses();
         }
     }
 }

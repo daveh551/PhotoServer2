@@ -1,4 +1,5 @@
-﻿using PhotoServer.Domain;
+﻿using System.Threading;
+using PhotoServer.Domain;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -128,12 +129,27 @@ namespace RacePhotosTestSupport
 			var sourcePhotos = new DirectoryInfo(@"..\..\..\PhotoServer_Tests\TestFiles").EnumerateFiles().ToList();
 			foreach (var photoData in testData)
 			{
-				var destFile = photoData.Path;
-				var fileName = Path.GetFileName(destFile);
-				var sourceFile = sourcePhotos.Where(p => p.Name.EndsWith(fileName)).Select(f => f.FullName).Single();
-				var fileStream = new FileStream(sourceFile, FileMode.Open);
-				var fileData = new BinaryReader(fileStream).ReadBytes((int) fileStream.Length);
-				provider.WriteFile(destFile, fileData);
+			    var count = 0;
+			    var success = false;
+			    while (!success && count < 3)
+			    {
+			        var destFile = photoData.Path;
+			        var fileName = Path.GetFileName(destFile);
+			        var sourceFile = sourcePhotos.Where(p => p.Name.EndsWith(fileName)).Select(f => f.FullName).Single();
+			        try
+			        {
+                        var fileStream = new FileStream(sourceFile, FileMode.Open);
+                        var fileData = new BinaryReader(fileStream).ReadBytes((int) fileStream.Length);
+                        provider.WriteFile(destFile, fileData);
+			            success = true;
+
+			        }
+			        catch (IOException ex)
+			        {
+			            count++;
+                        Thread.Sleep(500);
+			        }
+			    }
 			}
 		}
 	}

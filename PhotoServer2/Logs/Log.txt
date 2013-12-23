@@ -1,16 +1,45 @@
-2013-12-07 11:51:45.2507|INFO|Default|Application Startup Completed
-2013-12-07 12:00:54.8021|INFO|Default|Application Startup Completed
-2013-12-07 12:06:11.6180|INFO|Default|Application Shutdown
-2013-12-07 12:54:31.7639|INFO|Default|Application Startup Completed
-2013-12-07 15:21:03.6852|INFO|Default|Application Startup Completed
-2013-12-07 15:23:31.3476|INFO|Default|Application Startup Completed
-2013-12-07 15:23:42.1430|DEBUG|Common.Logging.ILog|Querying Object Photo
-2013-12-07 15:23:42.2070|DEBUG|Common.Logging.ILog|Queried Object Photo
-2013-12-07 15:23:42.5140|DEBUG|Common.Logging.ILog|	OnModelCreating
-2013-12-07 15:28:07.7535|INFO|Default|Application Startup Completed
-2013-12-07 15:30:10.4707|DEBUG|Common.Logging.ILog|	OnModelCreating
-2013-12-07 15:36:35.3683|INFO|Default|Application Startup Completed
-2013-12-07 17:01:46.0285|INFO|Default|Application Startup Completed
-2013-12-07 17:02:21.8280|DEBUG|Common.Logging.ILog|Querying Object Photo
-2013-12-07 17:02:21.8710|DEBUG|Common.Logging.ILog|Queried Object Photo
-2013-12-07 17:02:22.4720|DEBUG|Common.Logging.ILog|	OnModelCreating
+2013-12-08 13:47:09.1043|INFO|Default|Application Startup Completed
+2013-12-08 13:53:04.7951|DEBUG|Common.Logging.ILog|Adding Object PhotoServer.Domain.Photo
+2013-12-08 13:53:06.7819|DEBUG|Common.Logging.ILog|	OnModelCreating
+2013-12-08 13:55:15.7449|DEBUG|Common.Logging.ILog|Querying Object Photo
+2013-12-08 13:55:15.8189|DEBUG|Common.Logging.ILog|Queried Object Photo
+2013-12-08 16:29:31.2231|INFO|Default|Application Startup Completed
+2013-12-08 16:31:36.0193|DEBUG|Common.Logging.ILog|Adding Object PhotoServer.Domain.Photo
+2013-12-08 16:31:38.3980|DEBUG|Common.Logging.ILog|	OnModelCreating
+2013-12-08 16:35:45.9155|INFO|Default|Application Startup Completed
+2013-12-08 16:47:32.4148|DEBUG|Common.Logging.ILog|Adding Object PhotoServer.Domain.Photo
+2013-12-08 16:47:35.6981|DEBUG|Common.Logging.ILog|	OnModelCreating
+2013-12-08 16:50:40.8734|INFO|Default|Application Startup Completed
+2013-12-08 16:51:47.6120|DEBUG|Common.Logging.ILog|Adding Object PhotoServer.Domain.Photo
+2013-12-08 16:51:49.8392|DEBUG|Common.Logging.ILog|	OnModelCreating
+2013-12-08 16:59:04.4839|INFO|Default|Application Startup Completed
+2013-12-08 17:00:11.3615|DEBUG|Common.Logging.ILog|Adding Object PhotoServer.Domain.Photo
+2013-12-08 17:00:12.9072|DEBUG|Common.Logging.ILog|	OnModelCreating
+2013-12-08 17:00:21.4620|DEBUG|Common.Logging.ILog|Querying Object Photo
+2013-12-08 17:00:21.4620|DEBUG|Common.Logging.ILog|Queried Object Photo
+2013-12-08 17:06:01.1185|INFO|Default|Application Startup Completed
+2013-12-08 17:07:37.8989|DEBUG|Common.Logging.ILog|Adding Object PhotoServer.Domain.Photo
+2013-12-08 17:07:39.5775|DEBUG|Common.Logging.ILog|	OnModelCreating
+2013-12-08 17:08:22.4375|DEBUG|Common.Logging.ILog|Querying Object Photo
+2013-12-08 17:08:22.4645|DEBUG|Common.Logging.ILog|Queried Object Photo
+2013-12-08 17:12:53.0698|INFO|Default|Application Startup Completed
+2013-12-08 17:22:55.3475|INFO|Default|Application Startup Completed
+2013-12-08 17:59:46.9844|INFO|Default|Application Startup Completed
+2013-12-08 18:00:24.1483|DEBUG|Common.Logging.ILog|Adding Object PhotoServer.Domain.Photo
+2013-12-08 18:00:24.5983|DEBUG|Common.Logging.ILog|	OnModelCreating
+2013-12-08 18:00:27.8137|DEBUG|Common.Logging.ILog|	Commited 1 Changes
+2013-12-08 18:46:15.5838|INFO|Default|Application Startup Completed
+2013-12-08 19:11:42.7020|DEBUG|Common.Logging.ILog|Adding Object PhotoServer.Domain.Photo
+2013-12-08 19:11:44.8215|DEBUG|Common.Logging.ILog|	OnModelCreating
+2013-12-08 19:12:01.6774|DEBUG|Common.Logging.ILog|	Commited 1 Changes
+2013-12-08 19:56:05.1938|INFO|Default|Application Startup Completed
+2013-12-08 19:57:08.9406|DEBUG|Common.Logging.ILog|Adding Object PhotoServer.Domain.Photo
+2013-12-08 19:57:10.5246|DEBUG|Common.Logging.ILog|	OnModelCreating
+2013-12-08 20:03:19.7917|INFO|Default|Application Startup Completed
+2013-12-08 20:03:32.3993|DEBUG|Common.Logging.ILog|Adding Object PhotoServer.Domain.Photo
+2013-12-08 20:03:36.5273|DEBUG|Common.Logging.ILog|	OnModelCreating
+2013-12-08 20:04:00.3704|DEBUG|Common.Logging.ILog|	Commited 1 Changes
+2013-12-08 20:13:28.3800|INFO|Default|Application Startup Completed
+2013-12-08 20:13:34.7774|DEBUG|Common.Logging.ILog|Adding Object PhotoServer.Domain.Photo
+2013-12-08 20:13:39.4757|DEBUG|Common.Logging.ILog|	OnModelCreating
+2013-12-08 20:13:58.5492|DEBUG|Common.Logging.ILog|	Commited 1 Changes

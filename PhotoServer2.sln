@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RacePhotosTestSupport", "Ra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoServer.Storage", "Storage\PhotoServer.Storage.csproj", "{67551A25-F3E9-4E0D-9190-84E6A906E04E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JpegMediaTypeFormatter", "JpegMediaTypeFormatter\JpegMediaTypeFormatter.csproj", "{0D60B1BF-4D84-4CDF-A73E-8FD5C8DC349B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Azure|Any CPU = Azure|Any CPU
@@ -58,6 +60,12 @@ Global
 		{67551A25-F3E9-4E0D-9190-84E6A906E04E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67551A25-F3E9-4E0D-9190-84E6A906E04E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67551A25-F3E9-4E0D-9190-84E6A906E04E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D60B1BF-4D84-4CDF-A73E-8FD5C8DC349B}.Azure|Any CPU.ActiveCfg = Release|Any CPU
+		{0D60B1BF-4D84-4CDF-A73E-8FD5C8DC349B}.Azure|Any CPU.Build.0 = Release|Any CPU
+		{0D60B1BF-4D84-4CDF-A73E-8FD5C8DC349B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D60B1BF-4D84-4CDF-A73E-8FD5C8DC349B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D60B1BF-4D84-4CDF-A73E-8FD5C8DC349B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D60B1BF-4D84-4CDF-A73E-8FD5C8DC349B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
