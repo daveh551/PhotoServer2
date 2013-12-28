@@ -42,7 +42,7 @@ namespace PhotoServer2.Controllers
         }
 
         // GET api/Photo/5
-        [ResponseType(typeof(Photo))]
+        [ResponseType(typeof(byte[]))]
         public IHttpActionResult GetPhoto(Guid id)
         {
             Photo photo = _repo.Find(new FindPhotoById(id));
@@ -50,9 +50,13 @@ namespace PhotoServer2.Controllers
             {
                 return NotFound();
             }
+            byte[] image = ReadPhotoImage(photo);
+            return Ok(image);
 
-            return Ok(photo);
+
         }
+
+ 
 
         // PUT api/Photo/5
         public IHttpActionResult PutPhoto(Guid id, PhotoData photo)
@@ -158,7 +162,17 @@ namespace PhotoServer2.Controllers
             _store.WriteFile(path, photoImage);
             return path;
         }
-
+        private byte[] ReadPhotoImage(Photo photo)
+        {
+            var path = photo.Path;
+            var stream = _store.GetStream(path);
+            stream.Seek(0, SeekOrigin.Begin);
+            var length = stream.Length;
+            var returnArray = new byte[length];
+            for (long pos = 0; pos < length;)
+                pos  += stream.Read(returnArray, 0, (int) (length - pos));
+            return returnArray;
+        }
         // DELETE api/Photo/5
         [ResponseType(typeof(Photo))]
         public IHttpActionResult DeletePhoto(Guid id)

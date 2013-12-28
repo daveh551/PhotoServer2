@@ -107,6 +107,10 @@
       <Project>{f8be44f9-5540-4d9d-84f8-a2614cd30987}</Project>
       <Name>PhotoServer.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\JpegMediaTypeFormatter\JpegMediaTypeFormatter.csproj">
+      <Project>{0d60b1bf-4d84-4cdf-a73e-8fd5c8dc349b}</Project>
+      <Name>JpegMediaTypeFormatter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PhotoServer2\PhotoServer2.csproj">
       <Project>{5c17d7f1-cf9d-4c37-9770-58f1298a9bc2}</Project>
       <Name>PhotoServer2</Name>

@@ -43,8 +43,8 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 		//private int seqArgument = 1;
 		//private const string AZUREDEVCONNECTION = @"DefaultEndpointsProtocol=https;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;";
 		//private const string AZUREDEVCONNECTION = @"UseDevelopmentStorage=true;DevelopmentStorageProxyUri=http://127.0.0.1";
-		private const string AZUREDEVCONNECTION = @"UseDevelopmentStorage=true;DevelopmentStorageProxyUri=http://ipv4.fiddler";
-		//private const string AZUREDEVCONNECTION = @"UseDevelopmentStorage=true";
+		//private const string AZUREDEVCONNECTION = @"UseDevelopmentStorage=true;DevelopmentStorageProxyUri=http://ipv4.fiddler";
+		private const string AZUREDEVCONNECTION = @"UseDevelopmentStorage=true";
 		//private const string AZUREDEVCONNECTION = @"DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;DevelopmentStorageProxyUri=http://ipv4.fiddler";
 		private int fileSize;
 
@@ -375,6 +375,33 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 			Assert.That(resultData.CreatedDate, Is.GreaterThanOrEqualTo(expectedTime));
 			Assert.That(resultData.CreatedDate, Is.LessThanOrEqualTo(DateTime.Now));
 		}
+
+       
+        [Test]
+        public void Post_StoresPhotoThatCanBeRetrieved()
+        {
+            //Arrange
+            ObjectMother.ClearDirectory(provider);
+            //Act
+            var result = target.PostPhoto(image);
+			var hdr = GetHttpResult(result).Headers;
+            var location = hdr.Location.AbsolutePath;
+            var guid = new Guid(location.Substring(location.LastIndexOf('/') +1));
+            target.Request = new HttpRequestMessage(HttpMethod.Get, location);
+            target.Request.Headers.Clear();
+            target.Request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("image/jpg", 1.0));
+            result = target.GetPhoto(guid);
+            //var returnedImage = GetHttpResult(result).Content.ReadAsByteArrayAsync().Result;
+            var content = GetHttpResult(result).Content;
+            
+            var length = content.Headers.ContentLength;
+            var returnedImage = content.ReadAsByteArrayAsync().Result;
+
+            //Assert
+            Assert.IsInstanceOf(typeof(byte[]), returnedImage);
+            Assert.AreEqual(image.Length, returnedImage.Length, "Image has wrong length");
+            Assert.AreEqual(image, returnedImage, "images not equal");
+        }
 		#endregion
 	}
 
