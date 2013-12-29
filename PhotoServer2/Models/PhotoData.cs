@@ -20,5 +20,32 @@ namespace PhotoServer2.Models
         public virtual string PhotographerInitials { get; set; }
         public virtual string CreatedBy { get; set; }
         public virtual DateTime CreatedDate { get; set; }
+
+        //Default Constructor
+        public PhotoData()
+        {
+        }
+
+        //Copy Constructor`
+        public PhotoData( PhotoData original)
+        {
+
+            Id = original.Id;
+            Race = original.Race;
+            Station = original.Station;
+            Card = original.Card;
+            Sequence = original.Sequence;
+            TimeStamp = original.TimeStamp;
+            Hres = original.Hres;
+            Vres = original.Vres;
+            FStop = original.FStop;
+            ShutterSpeed = original.ShutterSpeed;
+            ISOSpeed = original.ISOSpeed;
+            FocalLength = original.FocalLength;
+            PhotographerInitials = original.PhotographerInitials;
+            CreatedBy = original.CreatedBy;
+            CreatedDate = original.CreatedDate;
+
+        }
     }
 }

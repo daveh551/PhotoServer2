@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
+using PhotoServer.DataAccessLayer.Mappings;
 using PhotoServer.Domain;
 
 namespace PhotoServer2.Models
@@ -20,6 +21,12 @@ namespace PhotoServer2.Models
         public PhotoDbContext() : base("DefaultConnection")
         {
             
+        }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            new HighwayMappingConfiguration().ConfigureModelBuilder(modelBuilder);
         }
 
         public System.Data.Entity.DbSet<PhotoServer.Domain.Photo> Photos { get; set; }

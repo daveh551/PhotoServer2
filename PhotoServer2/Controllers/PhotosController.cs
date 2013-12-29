@@ -71,8 +71,15 @@ namespace PhotoServer2.Controllers
             {
                 return BadRequest();
             }
-
-            _repo.Context.Update(photo);
+            // Extract only the fields that are changeable
+            var photoChanges = Mapper.Map<PhotoData, UpdateablePhotoData>(photo);
+            var originalPhoto = _repo.Find(new FindPhotoById(id));
+            var photoDataFromDB = Mapper.Map<Photo, PhotoData>(originalPhoto);
+            // Now merge the changeable fields with the data from the DB
+            Mapper.Map<UpdateablePhotoData, PhotoData>(photoChanges, photoDataFromDB);
+            // And convert it back to the DB entry & update
+            Mapper.Map<PhotoData, Photo>(photoDataFromDB, originalPhoto);
+            _repo.Context.Update(originalPhoto);
 
             try
             {
@@ -90,7 +97,8 @@ namespace PhotoServer2.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            var returnPhoto = Mapper.Map<Photo, PhotoData>(_repo.Find(new FindPhotoById(id)));
+            return Ok(returnPhoto);
         }
 
         // POST api/Photo

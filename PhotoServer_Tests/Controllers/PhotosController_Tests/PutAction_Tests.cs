@@ -1,3 +1,8 @@
+using System.Configuration;
+using System.Net.Http;
+using System.Web.Helpers;
+using System.Web.Http;
+using System.Web.Http.Results;
 using Highway.Data;
 using NUnit.Framework;
 using PhotoServer.Domain;
@@ -20,7 +25,7 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 		[TestFixtureSetUp]
 		public void SetupFixture()
 		{
-			//PhotoServer.App_Start.InitializeMapper.MapClasses();
+			PhotoServer2.App_Start.InitializeMapper.MapClasses();
 			provider = new AzureStorageProvider(@"UseDevelopmentStorage=true", "images");	
 		}
 
@@ -72,6 +77,34 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 
 		}
 
+        
+        [Test]
+        public void Put_PassingPhotoDataWithModifiedExifData_ExifDataIsNotModified()
+        {
+            //Arrange
+            var photoRecord = fakeDataSource.Find(new FindFirstPhoto());
+			var photoData = AutoMapper.Mapper.Map<Photo, PhotoData>(photoRecord);
+            var originalPhotoData = new PhotoData(photoData);
+			photoData.Race = "Test.5K";
+			photoData.Station = "FinishLine";
+			photoData.Card = "1";
+			photoData.Sequence = 1;
+            photoData.Hres = 100;
+            var req = new HttpRequestMessage(HttpMethod.Put, "/api/Photos/" + photoRecord.Id.ToString());
+            PostAction_Tests.SetupContext(target, req);
+            //Act
+
+            var result = target.PutPhoto (photoData.Id, photoData);
+            //Assert
+            Assert.IsInstanceOf(typeof(OkNegotiatedContentResult<PhotoData>), result, "result is wrong type");
+            var content = PostAction_Tests.GetHttpResult(result).Content;
+            Assert.IsInstanceOf(typeof(System.Net.Http.ObjectContent<PhotoData>), content, "Content is wrong type");
+            var jsonString = content.ReadAsStringAsync().Result;
+            var resultPhotoRecord = Json.Decode<PhotoData>(jsonString);
+            Assert.IsInstanceOf(typeof(PhotoData),resultPhotoRecord, "Wrong return type");
+            Assert.AreEqual(originalPhotoData.Vres, resultPhotoRecord.Vres, "Vres");
+            Assert.AreEqual(originalPhotoData.Hres, resultPhotoRecord.Hres, "Hres");
+        }
 		#endregion
 	}
 }

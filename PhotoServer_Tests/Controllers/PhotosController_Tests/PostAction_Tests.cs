@@ -74,26 +74,33 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 			InitializeMapper.MapClasses();
 
 			target = new PhotosController(fakeDataSource, provider);
-			target.ControllerContext = new FakeControllerContext();
-			target.Configuration = target.ControllerContext.Configuration;
-			target.ControllerContext.Request = SetupContent(fileName);
-			target.Request = target.ControllerContext.Request;
-			var requestContext = new HttpRequestContext();
-			requestContext.Principal = new GenericPrincipal(new GenericIdentity("FinishLineAdmin"), new string[0]) ;
+	        var req = SetupContent(fileName);
+			SetupContext(target, req);
 
-			var routeValue = new HttpRouteValueDictionary();
-			routeValue.Add("controller", "Photos");
-			var routeData = new HttpRouteData(target.Request.GetConfiguration().Routes["DefaultApi"], routeValue);
-			target.Request.SetRequestContext(requestContext);
-			target.Request.SetRouteData(routeData);
-			target.Request.SetConfiguration(target.Configuration);
-			target.RequestContext = target.Request.GetRequestContext();
-			target.Configuration.EnsureInitialized();
-			target.Url = new UrlHelper(target.Request);
-
-			//target.context = new  FakeHttpContext();
+		    //target.context = new  FakeHttpContext();
 		}
-		private HttpRequestMessage SetupContent(string fileName)
+
+	    public  static void SetupContext(ApiController target, HttpRequestMessage request)
+	    {
+	        target.ControllerContext = new FakeControllerContext();
+	        target.Configuration = target.ControllerContext.Configuration;
+	        target.Request = request;
+            target.ControllerContext.Request = target.Request;
+	        var requestContext = new HttpRequestContext();
+	        requestContext.Principal = new GenericPrincipal(new GenericIdentity("FinishLineAdmin"), new string[0]);
+
+	        var routeValue = new HttpRouteValueDictionary();
+	        routeValue.Add("controller", "Photos");
+	        var routeData = new HttpRouteData(target.Request.GetConfiguration().Routes["DefaultApi"], routeValue);
+	        target.Request.SetRequestContext(requestContext);
+	        target.Request.SetRouteData(routeData);
+	        target.Request.SetConfiguration(target.Configuration);
+	        target.RequestContext = target.Request.GetRequestContext();
+	        target.Configuration.EnsureInitialized();
+	        target.Url = new UrlHelper(target.Request);
+	    }
+
+	    private HttpRequestMessage SetupContent(string fileName)
 		{
 
 			var req = new HttpRequestMessage(HttpMethod.Post, host + "/api/Photos");
@@ -305,7 +312,7 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 			Assert.AreEqual(expected, resultData.ShutterSpeed, "ShutterSpeed");
 		}
 
-		private HttpResponseMessage GetHttpResult(IHttpActionResult result)
+		public static HttpResponseMessage GetHttpResult(IHttpActionResult result)
 		{
 			return result.ExecuteAsync(new CancellationToken()).Result;
 		}
