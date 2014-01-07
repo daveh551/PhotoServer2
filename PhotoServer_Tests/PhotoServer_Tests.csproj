@@ -172,14 +172,6 @@
     <Folder Include="TestFiles\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\PhotoServer.DataAccessLayer\PhotoServer.DataAccessLayer.csproj">
-      <Project>{3ce4f023-bc86-43a3-9442-cd664463a16d}</Project>
-      <Name>PhotoServer.DataAccessLayer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\RacePhotosData\PhotoServer.Domain\PhotoServer.Domain.csproj">
-      <Project>{f8be44f9-5540-4d9d-84f8-a2614cd30987}</Project>
-      <Name>PhotoServer.Domain</Name>
-    </ProjectReference>
     <ProjectReference Include="..\JpegMediaTypeFormatter\JpegMediaTypeFormatter.csproj">
       <Project>{0d60b1bf-4d84-4cdf-a73e-8fd5c8dc349b}</Project>
       <Name>JpegMediaTypeFormatter</Name>
