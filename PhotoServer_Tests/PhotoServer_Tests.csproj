@@ -180,10 +180,6 @@
       <Project>{5c17d7f1-cf9d-4c37-9770-58f1298a9bc2}</Project>
       <Name>PhotoServer2</Name>
     </ProjectReference>
-    <ProjectReference Include="..\RacePhotosTestSupport\RacePhotosTestSupport.csproj">
-      <Project>{5056e31e-12c6-440c-8c50-e7db2ccd060c}</Project>
-      <Name>RacePhotosTestSupport</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Storage\PhotoServer.Storage.csproj">
       <Project>{67551a25-f3e9-4e0d-9190-84e6a906e04e}</Project>
       <Name>PhotoServer.Storage</Name>
