@@ -20,6 +20,8 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -391,6 +393,14 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Data\PhotoServer.DataAccessLayer\PhotoServer.DataAccessLayer.csproj">
+      <Project>{3ce4f023-bc86-43a3-9442-cd664463a16d}</Project>
+      <Name>PhotoServer.DataAccessLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Data\PhotoServer.Domain\PhotoServer.Domain.csproj">
+      <Project>{f8be44f9-5540-4d9d-84f8-a2614cd30987}</Project>
+      <Name>PhotoServer.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\JpegMediaTypeFormatter\JpegMediaTypeFormatter.csproj">
       <Project>{0d60b1bf-4d84-4cdf-a73e-8fd5c8dc349b}</Project>
       <Name>JpegMediaTypeFormatter</Name>
@@ -445,6 +455,7 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

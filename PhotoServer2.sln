@@ -11,6 +11,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoServer.Storage", "Stor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JpegMediaTypeFormatter", "JpegMediaTypeFormatter\JpegMediaTypeFormatter.csproj", "{0D60B1BF-4D84-4CDF-A73E-8FD5C8DC349B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoServer.Domain", "Data\PhotoServer.Domain\PhotoServer.Domain.csproj", "{F8BE44F9-5540-4D9D-84F8-A2614CD30987}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoServer.DataAccessLayer", "Data\PhotoServer.DataAccessLayer\PhotoServer.DataAccessLayer.csproj", "{3CE4F023-BC86-43A3-9442-CD664463A16D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RacePhotosTestSupport", "TestSupport\RacePhotosTestSupport.csproj", "{5056E31E-12C6-440C-8C50-E7DB2CCD060C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{E2DAC900-CC23-427A-AC5A-0BEC66C19E64}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Azure|Any CPU = Azure|Any CPU
@@ -42,6 +55,24 @@ Global
 		{0D60B1BF-4D84-4CDF-A73E-8FD5C8DC349B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D60B1BF-4D84-4CDF-A73E-8FD5C8DC349B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D60B1BF-4D84-4CDF-A73E-8FD5C8DC349B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8BE44F9-5540-4D9D-84F8-A2614CD30987}.Azure|Any CPU.ActiveCfg = Azure|Any CPU
+		{F8BE44F9-5540-4D9D-84F8-A2614CD30987}.Azure|Any CPU.Build.0 = Azure|Any CPU
+		{F8BE44F9-5540-4D9D-84F8-A2614CD30987}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8BE44F9-5540-4D9D-84F8-A2614CD30987}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8BE44F9-5540-4D9D-84F8-A2614CD30987}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8BE44F9-5540-4D9D-84F8-A2614CD30987}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CE4F023-BC86-43A3-9442-CD664463A16D}.Azure|Any CPU.ActiveCfg = Release|Any CPU
+		{3CE4F023-BC86-43A3-9442-CD664463A16D}.Azure|Any CPU.Build.0 = Release|Any CPU
+		{3CE4F023-BC86-43A3-9442-CD664463A16D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CE4F023-BC86-43A3-9442-CD664463A16D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CE4F023-BC86-43A3-9442-CD664463A16D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CE4F023-BC86-43A3-9442-CD664463A16D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5056E31E-12C6-440C-8C50-E7DB2CCD060C}.Azure|Any CPU.ActiveCfg = Azure|Any CPU
+		{5056E31E-12C6-440C-8C50-E7DB2CCD060C}.Azure|Any CPU.Build.0 = Azure|Any CPU
+		{5056E31E-12C6-440C-8C50-E7DB2CCD060C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5056E31E-12C6-440C-8C50-E7DB2CCD060C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5056E31E-12C6-440C-8C50-E7DB2CCD060C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5056E31E-12C6-440C-8C50-E7DB2CCD060C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -14,6 +14,8 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -172,6 +174,14 @@
     <Folder Include="TestFiles\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Data\PhotoServer.DataAccessLayer\PhotoServer.DataAccessLayer.csproj">
+      <Project>{3ce4f023-bc86-43a3-9442-cd664463a16d}</Project>
+      <Name>PhotoServer.DataAccessLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Data\PhotoServer.Domain\PhotoServer.Domain.csproj">
+      <Project>{f8be44f9-5540-4d9d-84f8-a2614cd30987}</Project>
+      <Name>PhotoServer.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\JpegMediaTypeFormatter\JpegMediaTypeFormatter.csproj">
       <Project>{0d60b1bf-4d84-4cdf-a73e-8fd5c8dc349b}</Project>
       <Name>JpegMediaTypeFormatter</Name>
@@ -184,8 +194,13 @@
       <Project>{67551a25-f3e9-4e0d-9190-84e6a906e04e}</Project>
       <Name>PhotoServer.Storage</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TestSupport\RacePhotosTestSupport.csproj">
+      <Project>{5056e31e-12c6-440c-8c50-e7db2ccd060c}</Project>
+      <Name>RacePhotosTestSupport</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
