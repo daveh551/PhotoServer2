@@ -157,8 +157,8 @@
     <Compile Include="Controllers\PhotosController_Tests\GetAction_Tests.cs" />
     <Compile Include="Controllers\PhotosController_Tests\PostAction_Tests.cs" />
     <Compile Include="Controllers\PhotosController_Tests\PutAction_Tests.cs" />
+    <Compile Include="Helpers\FakeControllerContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Controllers\ValuesControllerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\packages\AutoMapper.3.1.1-ci1000\lib\net40\AutoMapper.Net4.dll">
