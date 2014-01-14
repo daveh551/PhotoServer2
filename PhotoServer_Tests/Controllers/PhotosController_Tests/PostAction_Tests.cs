@@ -75,28 +75,53 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 
 			target = new PhotosController(fakeDataSource, provider);
 	        var req = SetupContent(fileName);
-			SetupContext(target, req);
+			SetupControllerContext(target, req);
 
 		    //target.context = new  FakeHttpContext();
 		}
+        private void SetupControllerContext(ApiController photosController, HttpRequestMessage request)
+        {
+            var config = new HttpConfiguration();
+            PhotoServer2.WebApiConfig.Register(config);
+            var httpctx = new HttpRequestContext();
+            httpctx.Configuration = config;
+            var routeValues = new HttpRouteValueDictionary();
+            routeValues.Add("controller", "Photos");
+            var httpRoute = new HttpRouteData(config.Routes["DefaultApi"], routeValues);
+            httpctx.RouteData = httpRoute;
+            httpctx.Principal = new GenericPrincipal(new GenericIdentity("FinishLineAdmin"), new string[] { "Admin" });
+            httpctx.Url = new UrlHelper(request);
+            httpctx.VirtualPathRoot = config.VirtualPathRoot;
+            var ctrlDef = new HttpControllerDescriptor(config, "Photos", photosController.GetType());
+            var ctrlctx = new HttpControllerContext(httpctx, request, ctrlDef, photosController);
+            request.SetRouteData(httpRoute);
+            request.SetConfiguration(config);
+            request.SetRequestContext(httpctx);
+            photosController.ControllerContext = ctrlctx;
+            photosController.RequestContext = httpctx;
+            photosController.Request = request;
+            photosController.Configuration = config;
+
+        }
 
 	    public  static void SetupContext(ApiController target, HttpRequestMessage request)
 	    {
-	        target.ControllerContext = new FakeControllerContext();
+	        target.ControllerContext = new FakeControllerContext(target, request);
 	        target.Configuration = target.ControllerContext.Configuration;
 	        target.Request = request;
-            target.ControllerContext.Request = target.Request;
-	        var requestContext = new HttpRequestContext();
-	        requestContext.Principal = new GenericPrincipal(new GenericIdentity("FinishLineAdmin"), new string[0]);
+	        target.RequestContext = target.ControllerContext.RequestContext;
+	        //target.ControllerContext.Request = target.Request;
+	        //var requestContext = new HttpRequestContext();
+	        //requestContext.Principal = new GenericPrincipal(new GenericIdentity("FinishLineAdmin"), new string[0]);
 
-	        var routeValue = new HttpRouteValueDictionary();
-	        routeValue.Add("controller", "Photos");
-	        var routeData = new HttpRouteData(target.Request.GetConfiguration().Routes["DefaultApi"], routeValue);
-	        target.Request.SetRequestContext(requestContext);
-	        target.Request.SetRouteData(routeData);
-	        target.Request.SetConfiguration(target.Configuration);
-	        target.RequestContext = target.Request.GetRequestContext();
-	        target.Configuration.EnsureInitialized();
+	        //var routeValue = new HttpRouteValueDictionary();
+	        //routeValue.Add("controller", "Photos");
+	        //var routeData = new HttpRouteData(target.Request.GetConfiguration().Routes["DefaultApi"], routeValue);
+	        //target.Request.SetRequestContext(requestContext);
+	        //target.Request.SetRouteData(routeData);
+	        //target.Request.SetConfiguration(target.Configuration);
+	        //target.RequestContext = target.Request.GetRequestContext();
+	        //target.Configuration.EnsureInitialized();
 	        target.Url = new UrlHelper(target.Request);
 	    }
 

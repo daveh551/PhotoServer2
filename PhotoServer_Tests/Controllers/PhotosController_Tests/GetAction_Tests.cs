@@ -50,7 +50,9 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
                 testRecords.ForEach( r => db.Context.Add(r));
                 db.Context.Commit();
                 target = new PhotosController(db, provider);
-                target.ControllerContext = new FakeControllerContext();
+                var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost/api/Photos");
+                target.ControllerContext = new FakeControllerContext(target, request);
+		        target.Request = request;
 
 		    }
 		    catch (Exception ex)
@@ -73,7 +75,6 @@ namespace PhotoServer_Tests.Controllers.PhotosController_Tests
 		{
 			//Arrange
 			var expectedCount = 3;
-            target.Request = new HttpRequestMessage(HttpMethod.Get, "http://localhost/api/Photos");
 			//Act
 			var result = target.GetPhotos().ExecuteAsync(new CancellationToken()).Result;
 			//Assert

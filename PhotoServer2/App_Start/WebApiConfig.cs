@@ -26,7 +26,7 @@ namespace PhotoServer2
                 defaults: new { id = RouteParameter.Optional }
             );
 
-            GlobalConfiguration.Configuration.Formatters.Add(new MediaTypeFormatters.JpegMediaTypeFormatter());
+            config.Formatters.Add(new MediaTypeFormatters.JpegMediaTypeFormatter());
         }
     }
 }

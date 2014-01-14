@@ -119,7 +119,7 @@ namespace PhotoServer2.Controllers
                     CreatedDate = DateTime.UtcNow,
                     LastAccessed = DateTime.UtcNow,
                     FileSize = photoImage.LongLength,
-                    CreatedBy = Request.GetRequestContext().Principal.Identity.Name,
+                    CreatedBy = User.Identity.Name,
                     Server = Request.RequestUri.Host,
                 };
                 
